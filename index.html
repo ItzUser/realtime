@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Clock</title>
+    <title>JSON Time</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,9 +14,8 @@
             margin: 0;
             background-color: #f0f0f0;
         }
-        #clock {
-            font-size: 48px;
-            color: #333;
+        pre {
+            font-size: 18px;
             background: white;
             padding: 20px;
             border: 2px solid #ddd;
@@ -26,22 +25,22 @@
     </style>
 </head>
 <body>
-    <div id="clock">00:00:00</div>
+    <pre id="time-container">Loading...</pre>
 
     <script>
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        async function fetchTime() {
+            try {
+                const response = await fetch('http://localhost:3000/time');
+                const data = await response.json();
+                document.getElementById('time-container').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error fetching time:', error);
+            }
         }
 
-        // Update the clock every second
-        setInterval(updateClock, 1000);
-
-        // Initialize the clock immediately
-        updateClock();
+        // Update the time every second
+        setInterval(fetchTime, 1000);
+        fetchTime();
     </script>
 </body>
 </html>
