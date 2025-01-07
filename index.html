@@ -30,7 +30,7 @@
     <script>
         async function fetchTime() {
             try {
-                const response = await fetch('http://localhost:3000/time');
+                const response = await fetch('https://realtime-timegt.vercel.app/time');
                 const data = await response.json();
                 document.getElementById('time-container').textContent = JSON.stringify(data, null, 2);
             } catch (error) {
