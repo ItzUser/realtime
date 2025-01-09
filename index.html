@@ -1,276 +1,118 @@
-
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>YAPB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Mengalihkan ke Spotify...</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
+        /* Styling dasar untuk tampilan penuh halaman */
+        body, html {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: #212121;
+            background: linear-gradient(135deg, #1DB954, #1DB8A4);
+            font-family: Arial, sans-serif;
+            color: #ffffff;
             text-align: center;
-            box-sizing: border-box;
-            animation: fadeIn 1s ease-in-out;
+            overflow: hidden;
         }
 
-        .content-container {
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-out;
+        /* Container untuk semua teks dan countdown */
+        .container {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 500;
-            color: #6200ea;
+        /* Style teks judul */
+        .header {
+            font-size: 1.8em;
+            font-weight: bold;
             margin-bottom: 20px;
-            position: relative;
-            animation: moveUpDown 1.5s ease-in-out infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.5s ease-in-out forwards;
         }
 
-        h1::after {
-            content: '';
-            display: block;
-            width: 60%;
-            height: 2px;
-            background-color: #6200ea;
-            margin: 10px auto 0;
+        /* Style instruksi */
+        .instruction {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 2s ease-in-out forwards;
         }
 
-        form {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid #e0e0e0;
-            animation: fadeInUp 0.7s ease-out;
+        /* Style countdown */
+        .countdown-container {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        input[type="text"], 
-        textarea, 
-        input[type="file"] {
-            width: 100%;
-            padding: 16px;
-            margin: 12px 0;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            background-color: #fafafa;
-            transition: border-color 0.3s ease;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        input[type="text"]:focus, 
-        textarea:focus, 
-        input[type="file"]:focus {
-            border-color: #6200ea;
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            background-color: #6200ea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        .countdown {
+            font-size: 3em;
+            color: #FFD700;
             animation: pulse 1s infinite;
         }
 
-        button:hover {
-            background-color: #3700b3;
-        }
-
-        button i {
-            margin-right: 8px;
-        }
-
-        .info-text {
-            margin-top: 20px;
-            font-size: 1rem;
-            color: #757575;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .info-text code {
+        /* Watermark style */
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.8);
             font-weight: bold;
-            color: #6200ea;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
 
-        .link-container {
-            text-align: center;
-            margin-top: 20px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .link-container a {
-            color: #6200ea;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .link-container a:hover {
-            text-decoration: underline;
-        }
-
+        /* Animasi fadeIn dan pulse */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes moveUpDown {
-            0% {
-                transform: translateY(0);
-            }
-            25% {
-                transform: translateY(-5px);
-            }
-            50% {
-                transform: translateY(0);
-            }
-            75% {
-                transform: translateY(5px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
     </style>
+    <script type="text/javascript">
+        let countdown = 4;
+
+        function redirectToSpotify() {
+            // Coba buka Spotify jika aplikasi terpasang
+            window.location.href = "spotify://track/3be9ACTxtcL6Zm4vJRUiPG";
+
+            // Hitungan mundur selama 4 detik
+            const countdownInterval = setInterval(function() {
+                document.getElementById("countdown").innerText = countdown;
+                countdown--;
+
+                // Setelah 4 detik, alihkan ke versi web jika aplikasi tidak terbuka
+                if (countdown < 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = "https://open.spotify.com/track/3be9ACTxtcL6Zm4vJRUiPG";
+                }
+            }, 1000);
+        }
+    </script>
 </head>
-<body>
-    <div class="content-container">
-        <div class="title-container">
-            <h1>Yet Another File Uploader</h1>
-        </div>
-
-        <div class="form-container">
-            <p>You can upload any files in this web</p>
-            <p>Image is not supported, I don't know why</p>
-            <form id="pasteForm" method="POST" action="/create">
-                <textarea name="content" id="content" rows="10" cols="30" placeholder="Content here..." required></textarea><br>
-                <input type="file" id="fileInput" accept="*/*" />
-                <button type="submit"><i class="fas fa-upload"></i>Submit</button>
-            </form>
-        </div>
-
-        <div class="info-container">
-            <p class="info-text">The database is stored on GitHub.</p>
-        </div>
-
-        <div id="linkContainer" class="link-container" style="display:none;">
-            <p>Link<a href="" id="pasteLink" target="_blank"></a></p>
-            <p id="ls"></p>
+<body onload="redirectToSpotify()">
+    <div class="container">
+        <div class="header">Mengalihkan ke Spotify...</div>
+        <div class="instruction">Jika aplikasi Spotify terpasang, klik "Lanjutkan ke aplikasi Spotify".</div>
+        <div class="instruction">Jika tidak ada aksi, Anda akan dialihkan ke Spotify Web dalam:</div>
+        <div class="countdown-container">
+            <span id="countdown" class="countdown">4</span> detik...
         </div>
     </div>
-
-    <script>
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('content').value = e.target.result;
-                };
-                reader.readAsText(file);
-            }
-        });
-
-        document.getElementById('pasteForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-            const content = formData.get('content');
-
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0]; 
-            let ext;
-            if (file) {
-                const fileName = file.name;
-                ext = fileName.split('.').pop() || 'txt';
-            }
-
-            fetch('/create', {
-                method: 'POST',
-                body: JSON.stringify({ content, ext: ext || 'txt' }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.link) {
-                    const linkContainer = document.getElementById('linkContainer');
-                    const pasteLink = document.getElementById('pasteLink');
-                    pasteLink.href = data.link;
-                    document.getElementById("ls").innerText = data.loadstring
-                    pasteLink.textContent = data.link;
-                    linkContainer.style.display = 'block';
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-        });
-    </script>
+    <div class="watermark">IVENNIR</div>
 </body>
-</html>
+</html>'));
+</script>
